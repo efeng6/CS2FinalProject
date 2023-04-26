@@ -1,7 +1,16 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class King extends Piece{
 
-    public King(int x, int y, String color) {
+    public King(String color) {
         super(color);
+        if (color.equals("white")){
+            super.setImage(new ImageIcon("Resources/Chess_klt60.png").getImage());
+        }
+        else{
+            super.setImage(new ImageIcon("Resources/Chess_kdt60.png").getImage());
+        }
     }
 
     public boolean inCheck(Game game){

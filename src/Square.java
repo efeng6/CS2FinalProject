@@ -32,4 +32,11 @@ public class Square {
     public void setY(int y) {
         this.y = y;
     }
+
+    public boolean equals(Square other){
+        if (this.x == other.getX() && this.y == other.getY()){
+            return true;
+        }
+        return false;
+    }
 }
