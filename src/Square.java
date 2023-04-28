@@ -39,4 +39,11 @@ public class Square {
         }
         return false;
     }
+
+    public boolean hasPiece(){
+        if (this.getPiece() == null){
+            return false;
+        }
+        return true;
+    }
 }

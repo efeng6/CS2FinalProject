@@ -1,21 +1,31 @@
 import java.util.ArrayList;
 
 public class Game {
-    Square[][] board = new Square[8][8];
-    ArrayList<Piece> whites = new ArrayList<Piece>();
-    ArrayList<Piece> blacks = new ArrayList<Piece>();
+    Board board;
+    private String turn;
 
-    public ArrayList<Piece> getWhites() {
-        return whites;
+    public Game(){
+        turn = "white";
+        board = new Board();
     }
 
-    public ArrayList<Piece> getBlacks() {
-        return blacks;
+    public Board getBoard() {
+        return board;
     }
 
-    public Square getSquare(int x, int y){
-        return board[x][y];
+    public String getTurn() {
+        return turn;
     }
+
+    public void switchTurn() {
+        if(turn.equals("white")){
+            turn = "black";
+        }
+        else {
+            turn = "white";
+        }
+    }
+
 
 
 }

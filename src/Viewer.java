@@ -11,8 +11,8 @@ import javax.swing.JFrame;
 
 public class Viewer extends JFrame implements MouseListener, MouseMotionListener     // # 4: implements required for Listeners
 {
-    private Board b;
-    private Square s;
+    private Game game;
+
     private int x;
     private int y;
     private Square current;
@@ -23,11 +23,11 @@ public class Viewer extends JFrame implements MouseListener, MouseMotionListener
         // Create a Ball with the 0 parameter constructor
         // Look at the Ball class to see how this constructor
         // initializes the Ball instance variables
-        b = new Board();
+        game = new Game();
         x = 0;
         y = 0;
-        current = b.getSquare(0,0);
-        background = new ImageIcon("Resources/Chessboard_1000.svg").getImage();
+        current = game.getBoard().getSquare(0,0);
+        background = new ImageIcon("Resources/Chessboard_1000.png").getImage();
 
         setSize(fWidth, fHeight);
         setLocationRelativeTo(null);
@@ -71,9 +71,9 @@ public class Viewer extends JFrame implements MouseListener, MouseMotionListener
         int increment = getHeight()/8;
         for (int x = 0; x < 8; x++){
             for (int y = 0; y < 8; y++){
-                if (b.getSquare(x,y) != null){
-                    g.drawImage(b.getSquare(x,y).getPiece().getImage(),
-                            x * increment,y * increment, this);
+                if (game.getBoard().getSquare(x,y) != null && game.getBoard().getSquare(x,y).getPiece() != null){
+                    g.drawImage(game.getBoard().getSquare(x,y).getPiece().getImage(),
+                            (int)((x) * increment),(int)((y) * increment), this);
                 }
             }
         }
@@ -90,8 +90,14 @@ public class Viewer extends JFrame implements MouseListener, MouseMotionListener
     // # 7: Required of a MouseListener
     public void mousePressed(MouseEvent e)
     {
-        current = b.getSquare((int)(8.0*e.getX()/getHeight()),
-                    (int)(8.0*e.getY()/getHeight()));
+        if (e.getX() < getHeight() && game.getBoard().getSquare((int)(8.0*e.getX()/getHeight()),
+                (int)(8.0*e.getY()/getHeight())).hasPiece()){
+            if(game.getBoard().getSquare((int)(8.0*e.getX()/getHeight()),
+                    (int)(8.0*e.getY()/getHeight())).getPiece().getColor().equals(game.getTurn())){
+                current = game.getBoard().getSquare((int)(8.0*e.getX()/getHeight()),
+                        (int)(8.0*e.getY()/getHeight()));
+            }
+        }
         repaint();
     }
 
@@ -99,11 +105,14 @@ public class Viewer extends JFrame implements MouseListener, MouseMotionListener
     // # 8: Required of a MouseListener
     public void mouseReleased(MouseEvent e)
     {
-        if(current != null && current.getPiece().isValidMove(b, current,b.getSquare((int)(8.0*e.getX()/getHeight()),
+        if(current != null && current.getPiece() != null && current.getPiece().isValidMove(game.getBoard(), current,
+                game.getBoard().getSquare((int)(8.0*e.getX()/getHeight()),
                 (int)(8.0*e.getY()/getHeight())))){
             int setx = (int)(8.0*e.getX()/getHeight());
             int sety = (int)(8.0*e.getY()/getHeight());
-            b.setSquare(setx, sety, b.getSquare(setx, sety));
+            game.getBoard().getSquare(setx, sety).setPiece(current.getPiece());
+            game.getBoard().getSquare(current.getX(), current.getY()).setPiece(null);
+            game.switchTurn();
         }
         current = null;
         repaint();

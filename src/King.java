@@ -4,8 +4,8 @@ import java.awt.*;
 public class King extends Piece{
 
     public King(String color) {
-        super(color);
-        if (color.equals("white")){
+        super(color, "king");
+        if (super.getColor().equals("white")){
             super.setImage(new ImageIcon("Resources/Chess_klt60.png").getImage());
         }
         else{
@@ -13,12 +13,12 @@ public class King extends Piece{
         }
     }
 
-    public boolean inCheck(Game game){
-        if(super.getColor().equals("white")){
-            for(Piece p : game.getBlacks()){
-            }
-        }
-        return true;
-    }
+//    public boolean inCheck(Game game){
+//        if(super.getColor().equals("white")){
+//            for(Piece p : game.getBlacks()){
+//            }
+//        }
+//        return true;
+//    }
 
 }
